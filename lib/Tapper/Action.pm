@@ -9,6 +9,7 @@ use Tapper::Model 'model';
 use Tapper::Config;
 use YAML::Syck 'Load';
 use Log::Log4perl;
+use Try::Tiny;
 
 extends 'Tapper::Base';
 
@@ -77,12 +78,15 @@ sub run
                                 eval "use $plugin_class"; ## no critic
 
                                 if ($@) {
-                                        return "Could not load $plugin_class";
+                                        $self->log->error( "Could not load $plugin_class" );
                                 } else {
-                                        no strict 'refs'; ## no critic
-                                        $self->log->info("Call ${plugin_class}::execute()");
-                                        my ($error, $retval) = &{"${plugin_class}::execute"}($self, $message->message, $plugin_options);
-                                        $self->log->error("Error occured: ".$retval) if $error;
+                                        try{
+                                                no strict 'refs'; ## no critic
+                                                $self->log->info("Call ${plugin_class}::execute()");
+                                                &{"${plugin_class}::execute"}($self, $message->message, $plugin_options);
+                                        } catch {
+                                                $self->log->error("Error occured: $_");
+                                        }
                                 }
                         }
                         $message->delete;
