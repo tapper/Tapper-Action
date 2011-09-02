@@ -78,7 +78,7 @@ sub run
                                 eval "use $plugin_class"; ## no critic
 
                                 if ($@) {
-                                        $self->log->error( "Could not load $plugin_class" );
+                                        $self->log->error( "Could not load $plugin_class: $@" );
                                 } else {
                                         try{
                                                 no strict 'refs'; ## no critic
