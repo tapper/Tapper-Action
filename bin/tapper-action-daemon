@@ -8,7 +8,7 @@ use warnings;
 use Tapper::Action;
 use App::Daemon 'daemonize';
 $App::Daemon::as_user = "root";
-$App::Daemon::logfile = "/var/log/tapper-action-daemon.log";
+$App::Daemon::logfile = "/tmp/tapper-action-daemon.log";
 $App::Daemon::pidfile = "/tmp/tapper-action-daemon.pid";
 daemonize();
 my $action = Tapper::Action->new;
