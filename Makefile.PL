@@ -19,6 +19,7 @@ requires 'Tapper::Config' => '3.000010';
 requires 'App::Daemon';
 requires 'Log::Log4perl';
 requires 'Try::Tiny';
+requires 'Class::Load';
 auto_install;
 
 install_script glob('bin/*');
