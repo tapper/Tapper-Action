@@ -10,6 +10,7 @@ use Tapper::Config;
 use YAML::Syck 'Load';
 use Log::Log4perl;
 use Try::Tiny;
+use Class::Load ':all';
 
 extends 'Tapper::Base';
 
@@ -75,7 +76,7 @@ sub run
                                 my $plugin         = $self->cfg->{action}{$action}{plugin};
                                 my $plugin_options = $self->cfg->{action}{$action}{plugin_options};
                                 my $plugin_class   = "Tapper::Action::Plugin::${action}::${plugin}";
-                                eval "use $plugin_class"; ## no critic
+                                load_class($plugin_class);
 
                                 if ($@) {
                                         $self->log->error( "Could not load $plugin_class: $@" );
