@@ -1,4 +1,6 @@
-#! perl
+#! /usr/bin/perl
+# PODNAME: tapper-action
+# ABSTRACT: cmdline frontend to Tapper::Action/daemonize
 
 use strict;
 use warnings;
@@ -13,4 +15,3 @@ $App::Daemon::pidfile = "/tmp/tapper-action-daemon.pid";
 daemonize();
 my $action = Tapper::Action->new;
 $action->run;
-
