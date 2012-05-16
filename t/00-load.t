@@ -3,5 +3,5 @@
 use Test::More tests => 1;
 
 BEGIN {
-	use_ok( 'Tapper::Action' );
+        use_ok( 'Tapper::Action' );
 }
