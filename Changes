@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+
+4.0.1     2012-05-16
         - [FEAT] understand new action 'updategrub'
         - [FEAT] allow configurable plugins for each action type
         - [FEAT] action 'resume' now respects param 'after'
