@@ -32,7 +32,7 @@ sub execute
 
         $SIG{CHLD} = 'IGNORE';
         my $pid = fork();
-        
+
         die ("Can not fork in __PACKAGE__: $!") if not defined $pid;
         if ($pid == 0) {
                 my $host = $message->{host};

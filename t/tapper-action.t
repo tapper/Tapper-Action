@@ -34,7 +34,7 @@ Tapper::Config->_switch_context();
 
 use_ok('Tapper::Action');
 
-my $output; 
+my $output;
 
 my $dir = tempdir( CLEANUP => 1 );
 $ENV{TAPPER_DIR_FOR_ACTION_TEST} = "$dir/output";
@@ -43,7 +43,7 @@ $ENV{TAPPER_DIR_FOR_ACTION_TEST} = "$dir/output";
 eval {
         $output = `$EXECUTABLE_NAME -Ilib bin/tapper-action-daemon start`;
         is($output, '', 'Start without error');
-        
+
         $output =  `$EXECUTABLE_NAME -Ilib bin/tapper-action-daemon status`;
         like($output, qr/Running:\s+yes/, 'Daemon is running');
 
@@ -52,7 +52,7 @@ eval {
                                                                                                    after  => 0,
                                                                                                   }});
         $message->insert;
-        
+
         diag "Wait some seconds to give daemon time to work...";
         sleep 10;
         if (-e "$dir/output") {

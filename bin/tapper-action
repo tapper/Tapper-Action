@@ -1,4 +1,6 @@
-#! perl
+#! /usr/bin/perl
+# PODNAME: tapper-action
+# ABSTRACT: cmdline frontend to Tapper::Action
 
 use strict;
 use warnings;

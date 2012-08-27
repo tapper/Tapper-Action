@@ -33,23 +33,23 @@ Tapper::Config->_switch_context();
 
 use_ok('Tapper::Action');
 
-my $output; 
+my $output;
 
 
 # this eval makes sure we even try to stop the daemon when a test dies
 eval {
         $output = `$EXECUTABLE_NAME -Ilib bin/tapper-action-daemon start`;
         is($output, '', 'Start without error');
-        
+
         $output =  `$EXECUTABLE_NAME -Ilib bin/tapper-action-daemon status`;
         like($output, qr/Running:\s+yes/, 'Daemon is running');
 
-        my $message = model('TestrunDB')->resultset('Message')->new({type => 'action', 
+        my $message = model('TestrunDB')->resultset('Message')->new({type => 'action',
                                                                      message => {action => 'updategrub',
                                                                                  host   => 'bullock',
                                                                                 }});
         $message->insert;
-        
+
         diag "Wait some seconds to give daemon time to work...";
         sleep 10;
         ok(-e '/tmp/bullock.lst', 'Grub file was copied');

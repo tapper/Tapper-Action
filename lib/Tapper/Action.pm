@@ -1,4 +1,5 @@
 package Tapper::Action;
+# ABSTRACT: Tapper - Daemon and plugins to handle MCP actions
 
 use 5.010;
 use warnings;
@@ -16,12 +17,6 @@ extends 'Tapper::Base';
 
 has cfg => (is => 'rw', default => sub { Tapper::Config->subconfig} );
 
-our $VERSION = '3.000011';
-
-=head1 NAME
-
-Tapper::Action - Tapper - Daemon and plugins to handle MCP actions
-
 =head1 SYNOPSIS
 
 There are a few actions that Tapper assigns to an external daemon. This
@@ -33,7 +28,6 @@ assignments.
 
     my $daemon = Tapper::Action->new();
     $daemon->run();
-
 
 =head1 FUNCTIONS
 
@@ -99,60 +93,5 @@ sub run
         }
         return;
 }
-
-=head1 AUTHOR
-
-AMD OSRC Tapper Team, C<< <tapper at amd64.org> >>
-
-=head1 BUGS
-
-Please report any bugs or feature requests to C<bug-tapper-action at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tapper-Action>.  I will be notified, and then you'll
-automatically be notified of progress on your bug as I make changes.
-
-
-
-
-=head1 SUPPORT
-
-You can find documentation for this module with the perldoc command.
-
-    perldoc Tapper::Action
-
-
-You can also look for information at:
-
-=over 4
-
-=item * RT: CPAN's request tracker
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Tapper-Action>
-
-=item * AnnoCPAN: Annotated CPAN documentation
-
-L<http://annocpan.org/dist/Tapper-Action>
-
-=item * CPAN Ratings
-
-L<http://cpanratings.perl.org/d/Tapper-Action>
-
-=item * Search CPAN
-
-L<http://search.cpan.org/dist/Tapper-Action/>
-
-=back
-
-
-=head1 ACKNOWLEDGEMENTS
-
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2011 AMD OSRC Tapper Team, all rights reserved.
-
-This program is released under the following license: freebsd
-
-
-=cut
 
 1; # End of Tapper::Action
