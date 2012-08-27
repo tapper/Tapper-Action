@@ -90,7 +90,7 @@ sub run
                 }
         } catch {
                 $self->log->error("Caugth exception: $_");
-        }
+        };
         return;
 }
 
