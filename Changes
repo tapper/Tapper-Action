@@ -1,6 +1,10 @@
+
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+        * PostgreSQL support
+        - rename USER into OWNER
+        - [FIX] exceptions
 
 4.0.1     2012-05-16
         - [FEAT] understand new action 'updategrub'
