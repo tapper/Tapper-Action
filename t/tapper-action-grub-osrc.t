@@ -14,7 +14,6 @@ use English '-no_match_vars';
 use Tapper::Schema::TestTools;
 use Test::Fixture::DBIC::Schema;
 use Tapper::Model 'model';
-use File::Temp qw/ tempdir /;
 
 use Log::Log4perl;
 
@@ -36,8 +35,6 @@ use_ok('Tapper::Action');
 
 my $output;
 
-my $dir = tempdir( CLEANUP => 1 );
-$ENV{TAPPER_DIR_FOR_ACTION_TEST} = "$dir/output";
 
 # this eval makes sure we even try to stop the daemon when a test dies
 eval {
@@ -47,23 +44,15 @@ eval {
         $output =  `$EXECUTABLE_NAME -Ilib bin/tapper-action-daemon status`;
         like($output, qr/Running:\s+yes/, 'Daemon is running');
 
-        my $message = model('TestrunDB')->resultset('Message')->new({type => 'action', message => {action => 'resume',
-                                                                                                   host   => 'somehost',
-                                                                                                   after  => 0,
-                                                                                                  }});
+        my $message = model('TestrunDB')->resultset('Message')->new({type => 'action',
+                                                                     message => {action => 'updategrub',
+                                                                                 host   => 'bullock',
+                                                                                }});
         $message->insert;
 
         diag "Wait some seconds to give daemon time to work...";
         sleep 10;
-        if (-e "$dir/output") {
-                pass 'Output file for test script exists';
-                open my $fh, '<', "$dir/output";
-                my $text = do { local( $/ ); <$fh> };
-                close $fh;
-                like($text, qr/--first --host somehost/, 'All arguments of reset script in file');
-        } else {
-                fail 'Output file for test script exists';
-        }
+        ok(-e '/tmp/bullock.lst', 'Grub file was copied');
 };
 
 

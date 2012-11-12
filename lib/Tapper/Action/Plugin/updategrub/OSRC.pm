@@ -1,28 +1,32 @@
-package Tapper::Action::Plugin::resume::OSRC;
+package Tapper::Action::Plugin::updategrub::OSRC;
 
 use strict;
 use warnings;
 
+use File::Copy;
+use Tapper::Config;
+
 =head1 NAME
 
-Tapper::Action::Plugin::resume::OSRC - action plugin - resume::OSRC
+Tapper::Action::Plugin::grub::OSRC - action plugin - Update grub for OSRC purpose
 
 =head1 ABOUT
 
 The Tapper action daemon accepts messages to execute actions. This
-plugin here handles the "resume" action specifically for the OSRC.
+plugin here handles the "update_grub" action specifically for the OSRC.
 
 =head1 FUNCTIONS
 
 =head2 execute
 
-Send "resume" signal to machine.
+Update grub according to options
 
 @param scalar - Tapper::Action instance
-
 @param hashref - message details
-
 @param hashref - general plugin options
+
+@return success - (0, undef)
+@return error   - (1, error string)
 
 =cut
 
@@ -30,18 +34,15 @@ sub execute
 {
         my ($action, $message, $options) = @_;
 
-        $SIG{CHLD} = 'IGNORE';
-        my $pid = fork();
-
-        die ("Can not fork in __PACKAGE__: $!") if not defined $pid;
-        if ($pid == 0) {
-                my $host = $message->{host};
-                sleep( $message->{after} || $action->cfg->{action}{resume}{default_sleeptime} || 0);
-                my $cmd  = $options->{cmd} . " $host";
-                my ($error, $retval) = $action->log_and_exec($cmd);
-                $action->log->error($retval) if $error;
-                exit 0;
+        my $hostname = $message->{host} ||  $message->{hostname} or die "No hostname to update grub for in __PACKAGE__.\n";
+        my $default_grubfile = Tapper::Config->subconfig->{files}{default_grubfile} // '';
+        if (not -e $default_grubfile) {
+                die "Default grubfile '$default_grubfile' does not exist\n";
         }
+        my $filename    = Tapper::Config->subconfig->{paths}{grubpath}."/$hostname.lst";
+
+        # use File::Copy to be as system independend as possible
+        File::Copy::copy($default_grubfile, $filename) or die "Can't update grub file for $hostname: $!\n";
         return;
 }
 
