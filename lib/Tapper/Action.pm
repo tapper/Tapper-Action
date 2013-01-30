@@ -9,7 +9,6 @@ use Moose;
 use Tapper::Model 'model';
 use Tapper::Config;
 use YAML::Syck 'Load';
-use Log::Log4perl;
 use Try::Tiny;
 use Class::Load ':all';
 
@@ -52,17 +51,17 @@ sub get_messages
         return $messages;
 }
 
-=head2 run
+=head2 loop
 
 Run the Action daemon loop.
 
 =cut
 
-sub run
+sub loop
 {
         my ($self) = @_;
-        Log::Log4perl->init($self->cfg->{files}{log4perl_cfg});
 
+#        my $x=model('TestrunDB')->resultset('Host');
         try {
         ACTION:
                 while (my $messages = $self->get_messages) {
@@ -89,6 +88,7 @@ sub run
                         }
                 }
         } catch {
+                say STDERR "Caught exception $_";
                 $self->log->error("Caugth exception: $_");
         };
         return;

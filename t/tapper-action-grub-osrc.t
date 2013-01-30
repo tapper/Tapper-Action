@@ -39,10 +39,10 @@ my $output;
 # this eval makes sure we even try to stop the daemon when a test dies
 eval {
         $output = `$EXECUTABLE_NAME -Ilib bin/tapper-action-daemon start`;
-        is($output, '', 'Start without error');
+        is($output, "Start succeeded\n", 'Start without error');
 
         $output =  `$EXECUTABLE_NAME -Ilib bin/tapper-action-daemon status`;
-        like($output, qr/Running:\s+yes/, 'Daemon is running');
+        like($output, qr/Daemon is running/, 'Daemon is running');
 
         my $message = model('TestrunDB')->resultset('Message')->new({type => 'action',
                                                                      message => {action => 'updategrub',
@@ -57,7 +57,7 @@ eval {
 
 
 $output = `$EXECUTABLE_NAME -Ilib bin/tapper-action-daemon stop`;
-is($output, '', 'Stop without error');
+is($output, "Stop succeeded\n", 'Stop without error');
 
 
 
