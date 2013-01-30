@@ -10,3 +10,4 @@ inc/
 *.sqlite
 Tapper-Action-*
 Debian_CPANTS.txt
+t/tmp/
