@@ -5,13 +5,20 @@
 use strict;
 use warnings;
 
-# TODO: redirect STDERR/STDOUT
+use Tapper::Action::Daemon;
+use Cwd;
 
-use Tapper::Action;
-use App::Daemon 'daemonize';
-$App::Daemon::as_user = "root";
-$App::Daemon::logfile = "/tmp/tapper-action-daemon.log";
-$App::Daemon::pidfile = "/tmp/tapper-action-daemon.pid";
-daemonize();
-my $action = Tapper::Action->new;
-$action->run;
+$ENV{MX_DAEMON_STDOUT} ||= '/var/log/tapper_action_daemon_stdout.log';
+$ENV{MX_DAEMON_STDERR} ||= '/var/log/tapper_action_daemon_stderr.log';
+
+$ENV{MX_DAEMON_STDOUT} = '/tmp/tapper_action_daemon_stdout.log' if not -w $ENV{MX_DAEMON_STDOUT};
+$ENV{MX_DAEMON_STDERR} = '/tmp/tapper_action_daemon_stderr.log' if not -w $ENV{MX_DAEMON_STDERR};
+
+
+my $notify = Tapper::Action::Daemon->new
+    (
+     basedir => getcwd,
+     pidfile => '/tmp/tapper-action-daemon.pid',
+    );
+$notify->run;
+
