@@ -1,6 +1,8 @@
 Revision history for {{$dist->name}}
 
 {{$NEXT}}
+        - cleanup
+        - use MooseX::Daemonize for daemon
 
 4.1.1     2012-11-20
         - dzil pluginbundle TAPPER
