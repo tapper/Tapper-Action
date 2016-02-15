@@ -8,8 +8,8 @@ use warnings;
 use Tapper::Action::Daemon;
 use Cwd;
 
-$ENV{MX_DAEMON_STDOUT} ||= '/var/log/tapper_action_daemon_stdout.log';
-$ENV{MX_DAEMON_STDERR} ||= '/var/log/tapper_action_daemon_stderr.log';
+$ENV{MX_DAEMON_STDOUT} ||= '/tmp/tapper_action_daemon_stdout.log';
+$ENV{MX_DAEMON_STDERR} ||= '/tmp/tapper_action_daemon_stderr.log';
 
 $ENV{MX_DAEMON_STDOUT} = '/tmp/tapper_action_daemon_stdout.log' if not -w $ENV{MX_DAEMON_STDOUT};
 $ENV{MX_DAEMON_STDERR} = '/tmp/tapper_action_daemon_stderr.log' if not -w $ENV{MX_DAEMON_STDERR};
